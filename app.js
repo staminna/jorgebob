@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var product = require('./routes/product'); // Imports routes for the products
 var app = express();
 var mongoose = require('mongoose'); // Set up mongoose connection
+const cors = require('cors')
 
 var dev_db_url = 'mongodb://localhost/ProductBob';
 var mongoDB = process.env.MONGODB_URI || dev_db_url;
@@ -11,9 +12,10 @@ mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use('/check', product);
+app.use('/products', product);
 
 
 var port = 3002;
